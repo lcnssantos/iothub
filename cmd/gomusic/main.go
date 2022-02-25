@@ -22,10 +22,10 @@ func main() {
 
 	defer db.Close()
 
-	router := mux.NewRouter()
+	router := mux.NewRouter().PathPrefix("/v1").Subrouter()
 	router.Use(middlewares.NewJsonMiddleware().Handler)
 
-	user.Build(db, router.PathPrefix("/v1/user").Subrouter())
+	user.Build(db, router.PathPrefix("/user").Subrouter())
 
 	http.Handle("/", router)
 	http.ListenAndServe(":5000", nil)
