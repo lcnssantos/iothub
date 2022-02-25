@@ -12,12 +12,12 @@ type Configuration struct {
 	DB_HOST      string `validate:"required"`
 	DB_USER      string `validate:"required"`
 	DB_PASS      string `validate:"required"`
-	DB_PORT      string `validate:"required,hostname_port"`
+	DB_PORT      string `validate:"required"`
 	DB_NAME      string `validate:"required"`
 	DB_POOL_SIZE string `validate:"required"`
 }
 
-func GetEnvironmentConfiguration() *Configuration {
+func Get() *Configuration {
 	return &Configuration{
 		DB_DRIVER:    os.Getenv("DB_DRIVER"),
 		DB_HOST:      os.Getenv("DB_HOST"),
@@ -30,7 +30,7 @@ func GetEnvironmentConfiguration() *Configuration {
 }
 
 func Validate() {
-	environmentConfiguration := GetEnvironmentConfiguration()
+	environmentConfiguration := Get()
 
 	if err := validator.New().Struct(environmentConfiguration); err != nil {
 		log.Panicln("Invalid Environment Variables")
