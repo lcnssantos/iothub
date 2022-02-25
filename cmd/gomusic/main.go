@@ -7,7 +7,6 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/user"
 	"github.com/lcnssantos/gomusic/internal/middlewares"
 
 	"github.com/lcnssantos/gomusic/config"
@@ -15,7 +14,7 @@ import (
 )
 
 func BuildModules(db *sql.DB, router *mux.Router) {
-	user.Build(db, router.PathPrefix("/user").Subrouter())
+	Build(db, router.PathPrefix("/user").Subrouter())
 }
 
 func BuildRouters() *mux.Router {

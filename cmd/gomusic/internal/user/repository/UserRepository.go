@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/user/internal/dto"
+	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/dto"
 
 	"github.com/lcnssantos/gomusic/internal/database"
 )

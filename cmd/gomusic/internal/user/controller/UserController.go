@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/lcnssantos/gomusic/cmd/gomusic/user/internal/dto"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/user/internal/service"
+	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/dto"
+	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/service"
 	http2 "github.com/lcnssantos/gomusic/internal/http"
 	"net/http"
 )
