@@ -15,6 +15,7 @@ type Configuration struct {
 	DB_NAME      string `validate:"required"`
 	DB_POOL_SIZE string `validate:"required"`
 	PORT         string `validate:"required"`
+	JWT_KEY      string `validate:"required"`
 }
 
 func Get() *Configuration {
@@ -27,6 +28,7 @@ func Get() *Configuration {
 		DB_NAME:      os.Getenv("DB_NAME"),
 		DB_POOL_SIZE: os.Getenv("DB_POOL_SIZE"),
 		PORT:         os.Getenv("PORT"),
+		JWT_KEY:      os.Getenv("JWT_KEY"),
 	}
 }
 
