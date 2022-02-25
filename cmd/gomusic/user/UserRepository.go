@@ -15,9 +15,7 @@ func NewRepository(database *sql.DB) *Repository {
 	return &Repository{database: database}
 }
 
-func (this Repository) Create(data CreateUserDto) error {
-	ctx := context.TODO()
-
+func (this Repository) Create(data CreateUserDto, ctx context.Context) error {
 	return database.ExecuteTransaction(ctx, this.database, func(tx *sql.Tx) error {
 
 		prepare, err := tx.Prepare("INSERT INTO users (name, email, password, active) values ($1, $2, $3, false)")
@@ -32,8 +30,8 @@ func (this Repository) Create(data CreateUserDto) error {
 	})
 }
 
-func (this Repository) FindOneByEmail(email string) (*User, error) {
-	prepare, err := this.database.Prepare("SELECT * FROM users where email = $1 limit 1")
+func (this Repository) FindOneByEmail(email string, ctx context.Context) (*User, error) {
+	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users where email = $1 limit 1")
 
 	if err != nil {
 		return nil, err
@@ -48,8 +46,8 @@ func (this Repository) FindOneByEmail(email string) (*User, error) {
 	return user, nil
 }
 
-func (this Repository) FindOneById(uid string) (*User, error) {
-	prepare, err := this.database.Prepare("SELECT * FROM users WHERE id = $1 LIMIT 1")
+func (this Repository) FindOneById(uid string, ctx context.Context) (*User, error) {
+	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users WHERE id = $1 LIMIT 1")
 
 	if err != nil {
 		return nil, err

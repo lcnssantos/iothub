@@ -20,7 +20,7 @@ func (this Controller) Create(w http.ResponseWriter, r *http.Request) {
 	if err := http2.HandleValidationRequest(w, r, createUserDto); err != nil {
 		return
 	}
-	if err := this.service.Create(*createUserDto); err != nil {
+	if err := this.service.Create(*createUserDto, r.Context()); err != nil {
 		http2.ThrowHttpError(w, http.StatusUnprocessableEntity, err.Error())
 		return
 	}
