@@ -1,0 +1,15 @@
+version: '3.3'
+
+services:
+  pg:
+    container_name: gomusic_db
+    image: postgres:14.1
+    environment:
+      - POSTGRES_PASSWORD=gomusic
+      - POSTGRES_USER=gomusic
+      - POSTGRES_DB=go-music
+    ports:
+      - 5432:5432
+networks:
+  default:
+    driver: "bridge"
