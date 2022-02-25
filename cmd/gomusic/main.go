@@ -1,6 +1,8 @@
 package main
 
 import (
+	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 
@@ -12,8 +14,19 @@ import (
 	"github.com/lcnssantos/gomusic/internal/database"
 )
 
+func BuildModules(db *sql.DB, router *mux.Router) {
+	user.Build(db, router.PathPrefix("/user").Subrouter())
+}
+
+func BuildRouters() *mux.Router {
+	router := mux.NewRouter().PathPrefix("/v1").Subrouter()
+	router.Use(middlewares.NewJsonMiddleware().Handler)
+	return router
+}
+
 func main() {
 	config.Validate()
+	environmentConfiguration := config.Get()
 	db, err := database.GetConnection()
 
 	if err != nil {
@@ -22,11 +35,10 @@ func main() {
 
 	defer db.Close()
 
-	router := mux.NewRouter().PathPrefix("/v1").Subrouter()
-	router.Use(middlewares.NewJsonMiddleware().Handler)
+	router := BuildRouters()
 
-	user.Build(db, router.PathPrefix("/user").Subrouter())
+	BuildModules(db, router)
 
 	http.Handle("/", router)
-	http.ListenAndServe(":5000", nil)
+	http.ListenAndServe(fmt.Sprintf(":%s", environmentConfiguration.PORT), nil)
 }
