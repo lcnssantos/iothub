@@ -24,7 +24,7 @@ func Get() *Configuration {
 		DB_USER:      os.Getenv("DB_USER"),
 		DB_PASS:      os.Getenv("DB_PASS"),
 		DB_PORT:      os.Getenv("DB_PORT"),
-		DB_NAME:      os.Getenv("DB_PORT"),
+		DB_NAME:      os.Getenv("DB_NAME"),
 		DB_POOL_SIZE: os.Getenv("DB_POOL_SIZE"),
 	}
 }

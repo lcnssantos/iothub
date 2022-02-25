@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=gomusic
       - POSTGRES_USER=gomusic
-      - POSTGRES_DB=go-music
+      - POSTGRES_DB=gomusic
     ports:
       - 5432:5432
 networks:
