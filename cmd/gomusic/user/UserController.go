@@ -27,3 +27,14 @@ func (this Controller) Create(w http.ResponseWriter, r *http.Request) {
 
 	http2.SetResponse(w, 201, nil)
 }
+
+func (this Controller) List(w http.ResponseWriter, r *http.Request) {
+	users, err := this.service.List(r.Context())
+
+	if err != nil {
+		http2.ThrowHttpError(w, http.StatusInternalServerError, err.Error())
+		return
+	}
+
+	http2.SetResponse(w, 200, users)
+}

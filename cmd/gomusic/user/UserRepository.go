@@ -62,6 +62,37 @@ func (this Repository) FindOneById(uid string, ctx context.Context) (*User, erro
 	return user, nil
 }
 
+func (this Repository) List(ctx context.Context) ([]*User, error) {
+	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users")
+
+	if err != nil {
+		return nil, err
+	}
+
+	rows, err := prepare.Query()
+
+	if err != nil {
+		return nil, err
+	}
+
+	return this.scanEntities(rows)
+}
+
+func (this Repository) scanEntities(r *sql.Rows) ([]*User, error) {
+	users := make([]*User, 0)
+
+	for r.Next() {
+		user := new(User)
+		err := r.Scan(&user.Id, &user.Name, &user.Password, &user.Email, &user.Active, &user.CreatedAt, &user.UpdatedAt)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, user)
+	}
+
+	return users, nil
+}
+
 func (this Repository) scanEntity(r *sql.Row) (*User, error) {
 	var user = User{}
 	err := r.Scan(&user.Id, &user.Name, &user.Password, &user.Email, &user.Active, &user.CreatedAt, &user.UpdatedAt)

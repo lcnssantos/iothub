@@ -36,6 +36,10 @@ func (this Service) FindOneById(uid string, ctx context.Context) (*User, error) 
 	return this.repository.FindOneById(uid, ctx)
 }
 
+func (this Service) List(ctx context.Context) ([]*User, error) {
+	return this.repository.List(ctx)
+}
+
 func NewService(repository *Repository, hashService *HashService) *Service {
 	return &Service{repository: repository, hashService: hashService}
 }
