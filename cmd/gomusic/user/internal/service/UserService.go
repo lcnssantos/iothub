@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/user/dto"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/user/repository"
+	"github.com/lcnssantos/gomusic/cmd/gomusic/user/internal/dto"
+	"github.com/lcnssantos/gomusic/cmd/gomusic/user/internal/repository"
 )
 
 type UserService struct {
@@ -42,6 +42,6 @@ func (this UserService) List(ctx context.Context) ([]*dto.User, error) {
 	return this.repository.List(ctx)
 }
 
-func NewService(repository *repository.UserRepository, hashService *HashService) *UserService {
+func NewUserService(repository *repository.UserRepository, hashService *HashService) *UserService {
 	return &UserService{repository: repository, hashService: hashService}
 }

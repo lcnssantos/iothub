@@ -2,7 +2,7 @@ package router
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/user/controller"
+	"github.com/lcnssantos/gomusic/cmd/gomusic/user/internal/controller"
 )
 
 func BuildRouter(controller *controller.UserController, router *mux.Router) {

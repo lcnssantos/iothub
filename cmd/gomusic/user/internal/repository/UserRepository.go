@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/user/dto"
+	"github.com/lcnssantos/gomusic/cmd/gomusic/user/internal/dto"
 
 	"github.com/lcnssantos/gomusic/internal/database"
 )
@@ -12,7 +12,7 @@ type UserRepository struct {
 	database *sql.DB
 }
 
-func NewRepository(database *sql.DB) *UserRepository {
+func NewUserRepository(database *sql.DB) *UserRepository {
 	return &UserRepository{database: database}
 }
 
