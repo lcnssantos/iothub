@@ -1,7 +1,6 @@
 package config
 
 import (
-	"log"
 	"os"
 
 	"github.com/go-playground/validator/v10"
@@ -31,10 +30,8 @@ func Get() *Configuration {
 	}
 }
 
-func Validate() {
+func Validate() error {
 	environmentConfiguration := Get()
-
-	if err := validator.New().Struct(environmentConfiguration); err != nil {
-		log.Panicln("Invalid Environment Variables")
-	}
+	err := validator.New().Struct(environmentConfiguration)
+	return err
 }

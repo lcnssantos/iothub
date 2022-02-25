@@ -25,7 +25,12 @@ func BuildRouters() *mux.Router {
 }
 
 func main() {
-	config.Validate()
+	err := config.Validate()
+
+	if err != nil {
+		log.Panicln("Error to validate environment variables")
+	}
+
 	environmentConfiguration := config.Get()
 	db, err := database.GetConnection()
 
