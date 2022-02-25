@@ -1,6 +1,7 @@
 package database
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"strconv"
@@ -28,4 +29,22 @@ func GetConnection() (*sql.DB, error) {
 	}
 
 	return db, nil
+}
+
+func ExecuteTransaction(ctx context.Context, db *sql.DB, handler func(tx *sql.Tx) error) error {
+	tx, err := db.BeginTx(ctx, nil)
+
+	if err != nil {
+		return err
+	}
+
+	defer tx.Rollback()
+
+	if err := handler(tx); err != nil {
+		return err
+	}
+
+	tx.Commit()
+
+	return nil
 }

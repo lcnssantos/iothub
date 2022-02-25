@@ -1,6 +1,11 @@
 package user
 
-import "database/sql"
+import (
+	"context"
+	"database/sql"
+
+	"github.com/lcnssantos/gomusic/internal/database"
+)
 
 type Repository struct {
 	database *sql.DB
@@ -11,15 +16,20 @@ func NewRepository(database *sql.DB) *Repository {
 }
 
 func (this Repository) Create(data CreateUserDto) error {
-	prepare, err := this.database.Prepare("INSERT INTO users (name, email, password, active) values ($1, $2, $3, false)")
+	ctx := context.TODO()
 
-	if err != nil {
+	return database.ExecuteTransaction(ctx, this.database, func(tx *sql.Tx) error {
+
+		prepare, err := tx.Prepare("INSERT INTO users (name, email, password, active) values ($1, $2, $3, false)")
+
+		if err != nil {
+			return err
+		}
+
+		_, err = prepare.Exec(data.Name, data.Email, data.Password)
+
 		return err
-	}
-
-	_, err = prepare.Exec(data.Name, data.Email, data.Password)
-
-	return err
+	})
 }
 
 func (this Repository) FindOneByEmail(email string) (*User, error) {
