@@ -1,21 +1,22 @@
-package user
+package repository
 
 import (
 	"context"
 	"database/sql"
+	"github.com/lcnssantos/gomusic/cmd/gomusic/user/dto"
 
 	"github.com/lcnssantos/gomusic/internal/database"
 )
 
-type Repository struct {
+type UserRepository struct {
 	database *sql.DB
 }
 
-func NewRepository(database *sql.DB) *Repository {
-	return &Repository{database: database}
+func NewRepository(database *sql.DB) *UserRepository {
+	return &UserRepository{database: database}
 }
 
-func (this Repository) Create(data CreateUserDto, ctx context.Context) error {
+func (this UserRepository) Create(data dto.CreateUserDto, ctx context.Context) error {
 	return database.ExecuteTransaction(ctx, this.database, func(tx *sql.Tx) error {
 
 		prepare, err := tx.Prepare("INSERT INTO users (name, email, password, active) values ($1, $2, $3, false)")
@@ -30,7 +31,7 @@ func (this Repository) Create(data CreateUserDto, ctx context.Context) error {
 	})
 }
 
-func (this Repository) FindOneByEmail(email string, ctx context.Context) (*User, error) {
+func (this UserRepository) FindOneByEmail(email string, ctx context.Context) (*dto.User, error) {
 	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users where email = $1 limit 1")
 
 	if err != nil {
@@ -46,7 +47,7 @@ func (this Repository) FindOneByEmail(email string, ctx context.Context) (*User,
 	return user, nil
 }
 
-func (this Repository) FindOneById(uid string, ctx context.Context) (*User, error) {
+func (this UserRepository) FindOneById(uid string, ctx context.Context) (*dto.User, error) {
 	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users WHERE id = $1 LIMIT 1")
 
 	if err != nil {
@@ -62,7 +63,7 @@ func (this Repository) FindOneById(uid string, ctx context.Context) (*User, erro
 	return user, nil
 }
 
-func (this Repository) List(ctx context.Context) ([]*User, error) {
+func (this UserRepository) List(ctx context.Context) ([]*dto.User, error) {
 	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users")
 
 	if err != nil {
@@ -78,11 +79,11 @@ func (this Repository) List(ctx context.Context) ([]*User, error) {
 	return this.scanEntities(rows)
 }
 
-func (this Repository) scanEntities(r *sql.Rows) ([]*User, error) {
-	users := make([]*User, 0)
+func (this UserRepository) scanEntities(r *sql.Rows) ([]*dto.User, error) {
+	users := make([]*dto.User, 0)
 
 	for r.Next() {
-		user := new(User)
+		user := new(dto.User)
 		err := r.Scan(&user.Id, &user.Name, &user.Password, &user.Email, &user.Active, &user.CreatedAt, &user.UpdatedAt)
 		if err != nil {
 			return nil, err
@@ -93,8 +94,8 @@ func (this Repository) scanEntities(r *sql.Rows) ([]*User, error) {
 	return users, nil
 }
 
-func (this Repository) scanEntity(r *sql.Row) (*User, error) {
-	var user = User{}
+func (this UserRepository) scanEntity(r *sql.Row) (*dto.User, error) {
+	var user = dto.User{}
 	err := r.Scan(&user.Id, &user.Name, &user.Password, &user.Email, &user.Active, &user.CreatedAt, &user.UpdatedAt)
 	return &user, err
 }
