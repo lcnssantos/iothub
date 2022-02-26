@@ -10,3 +10,7 @@ type AuthResponse struct {
 	Type         string `json:"type"`
 	RefreshToken string `json:"refreshToken"`
 }
+
+type RefreshRequest struct {
+	RefreshToken string `json:"refreshToken" validate:"required"`
+}

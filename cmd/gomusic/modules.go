@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	controller2 "github.com/lcnssantos/gomusic/cmd/gomusic/internal/auth/controller"
+	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/auth/middleware"
 	router2 "github.com/lcnssantos/gomusic/cmd/gomusic/internal/auth/router"
 	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/auth/service"
 
@@ -19,7 +20,13 @@ func BuildUserModule(db *sql.DB, r *mux.Router) {
 	hashService := service2.NewHashService()
 	userService := service2.NewUserService(userRepository, hashService)
 	userController := controller.NewUserController(userService)
-	router.BuildRouter(userController, r)
+	meController := controller.NewMeController()
+	jwtService := service.NewJwtService()
+	authService := service.NewAuthService(userService, hashService, jwtService)
+	authMiddleware := middleware.NewAuthenticationMiddleware(authService)
+
+	router.BuildUserRouter(userController, r.PathPrefix("/user").Subrouter())
+	router.BuildMeRouter(meController, r.PathPrefix("/me").Subrouter(), authMiddleware)
 }
 
 func BuildAuthModule(db *sql.DB, r *mux.Router) {

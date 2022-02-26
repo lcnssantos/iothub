@@ -14,7 +14,7 @@ import (
 )
 
 func BuildModules(db *sql.DB, router *mux.Router) {
-	BuildUserModule(db, router.PathPrefix("/user").Subrouter())
+	BuildUserModule(db, router.PathPrefix("/").Subrouter())
 	BuildAuthModule(db, router.PathPrefix("/auth").Subrouter())
 }
 

@@ -5,7 +5,7 @@ import (
 	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/controller"
 )
 
-func BuildRouter(controller *controller.UserController, router *mux.Router) {
+func BuildUserRouter(controller *controller.UserController, router *mux.Router) {
 	router.Methods("POST").HandlerFunc(controller.Create)
 	router.Methods("GET").HandlerFunc(controller.List)
 }
