@@ -58,7 +58,7 @@ func (this AuthService) GetByToken(token string, ctx context.Context) (*dto2.Use
 		return nil, errors.New("Invalid Token type")
 	}
 
-	return this.userService.FindOneById(claims.Uid, ctx)
+	return this.userService.FindOneById(claims.Id, ctx)
 }
 
 func (this AuthService) RefreshToken(refreshToken string, ctx context.Context) (string, string, error) {
@@ -72,7 +72,7 @@ func (this AuthService) RefreshToken(refreshToken string, ctx context.Context) (
 		return "", "", errors.New("Invalid Token type")
 	}
 
-	user, err := this.userService.FindOneById(claims.Uid, ctx)
+	user, err := this.userService.FindOneById(claims.Id, ctx)
 
 	if err != nil {
 		return "", "", err

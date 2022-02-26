@@ -48,14 +48,14 @@ func (this UserRepository) FindOneByEmail(email string, ctx context.Context) (*d
 	return user, nil
 }
 
-func (this UserRepository) FindOneById(uid string, ctx context.Context) (*dto.User, error) {
+func (this UserRepository) FindOneById(id uint64, ctx context.Context) (*dto.User, error) {
 	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users WHERE id = $1 LIMIT 1")
 
 	if err != nil {
 		return nil, err
 	}
 
-	user, err := this.scanEntity(prepare.QueryRow(uid))
+	user, err := this.scanEntity(prepare.QueryRow(id))
 
 	if err != nil {
 		return nil, err

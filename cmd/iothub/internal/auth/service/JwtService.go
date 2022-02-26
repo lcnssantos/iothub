@@ -8,7 +8,7 @@ import (
 )
 
 type TokenClaims struct {
-	Uid  string `json:"uid"`
+	Id   uint64 `json:"id"`
 	Kind string `json:"kind"`
 	jwt.StandardClaims
 }
@@ -19,7 +19,7 @@ func NewJwtService() *JwtService {
 	return &JwtService{}
 }
 
-func (this JwtService) Encode(id string, kind string, expirationTime int) (string, error) {
+func (this JwtService) Encode(id uint64, kind string, expirationTime int) (string, error) {
 	tokenClaims := TokenClaims{
 		id, kind,
 		jwt.StandardClaims{

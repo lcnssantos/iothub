@@ -35,8 +35,8 @@ func (this UserService) FindOneByEmail(email string, ctx context.Context) (*dto.
 	return this.repository.FindOneByEmail(email, ctx)
 }
 
-func (this UserService) FindOneById(uid string, ctx context.Context) (*dto.User, error) {
-	return this.repository.FindOneById(uid, ctx)
+func (this UserService) FindOneById(id uint64, ctx context.Context) (*dto.User, error) {
+	return this.repository.FindOneById(id, ctx)
 }
 
 func (this UserService) List(ctx context.Context) ([]*dto.User, error) {
