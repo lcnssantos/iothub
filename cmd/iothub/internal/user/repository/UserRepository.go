@@ -20,7 +20,7 @@ func NewUserRepository(database *sql.DB) *UserRepository {
 func (this UserRepository) Create(data dto.CreateUserDto, ctx context.Context) error {
 	return database.ExecuteTransaction(ctx, this.database, func(tx *sql.Tx) error {
 
-		prepare, err := tx.Prepare("INSERT INTO users (name, email, password, active) values ($1, $2, $3, false)")
+		prepare, err := tx.Prepare("INSERT INTO users (name, email, password, active) values (?, ?, ?, false)")
 
 		if err != nil {
 			return err
@@ -33,7 +33,7 @@ func (this UserRepository) Create(data dto.CreateUserDto, ctx context.Context) e
 }
 
 func (this UserRepository) FindOneByEmail(email string, ctx context.Context) (*dto.User, error) {
-	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users where email = $1 limit 1")
+	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users where email = ? limit 1")
 
 	if err != nil {
 		return nil, err
@@ -49,7 +49,7 @@ func (this UserRepository) FindOneByEmail(email string, ctx context.Context) (*d
 }
 
 func (this UserRepository) FindOneById(id uint64, ctx context.Context) (*dto.User, error) {
-	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users WHERE id = $1 LIMIT 1")
+	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users WHERE id = ? LIMIT 1")
 
 	if err != nil {
 		return nil, err

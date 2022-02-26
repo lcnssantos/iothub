@@ -2,8 +2,9 @@ package http
 
 import (
 	"encoding/json"
-	"github.com/go-playground/validator/v10"
 	"net/http"
+
+	"github.com/go-playground/validator/v10"
 )
 
 func HandleValidationRequest(w http.ResponseWriter, r *http.Request, data interface{}) error {

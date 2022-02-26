@@ -6,15 +6,14 @@ import (
 	"fmt"
 	"strconv"
 
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/lcnssantos/iothub/config"
-	_ "github.com/lib/pq"
 )
 
 func GetConnection() (*sql.DB, error) {
 	configuration := config.Get()
 
-	connectionString := fmt.Sprintf("host=%s port=%s user=%s "+
-		"password=%s dbname=%s sslmode=disable", configuration.DB_HOST, configuration.DB_PORT, configuration.DB_USER, configuration.DB_PASS, configuration.DB_NAME)
+	connectionString := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true", configuration.DB_USER, configuration.DB_PASS, configuration.DB_HOST, configuration.DB_PORT, configuration.DB_NAME)
 
 	db, err := sql.Open(configuration.DB_DRIVER, connectionString)
 
