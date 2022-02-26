@@ -41,6 +41,7 @@ func main() {
 	defer db.Close()
 
 	router := BuildRouters()
+	router.Use(middlewares.NewLogMiddleware().Handler)
 
 	BuildModules(db, router)
 
