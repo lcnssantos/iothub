@@ -1,10 +1,11 @@
 package controller
 
 import (
-	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/dto"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/service"
-	http2 "github.com/lcnssantos/gomusic/internal/http"
 	"net/http"
+
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/dto"
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/service"
+	http2 "github.com/lcnssantos/iothub/internal/http"
 )
 
 type UserController struct {

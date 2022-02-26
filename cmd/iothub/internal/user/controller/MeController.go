@@ -1,8 +1,9 @@
 package controller
 
 import (
-	http2 "github.com/lcnssantos/gomusic/internal/http"
 	"net/http"
+
+	http2 "github.com/lcnssantos/iothub/internal/http"
 )
 
 type MeController struct {

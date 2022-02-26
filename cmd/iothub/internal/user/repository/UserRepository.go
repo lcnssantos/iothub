@@ -3,9 +3,10 @@ package repository
 import (
 	"context"
 	"database/sql"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/dto"
 
-	"github.com/lcnssantos/gomusic/internal/database"
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/dto"
+
+	"github.com/lcnssantos/iothub/internal/database"
 )
 
 type UserRepository struct {

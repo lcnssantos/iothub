@@ -1,15 +1,26 @@
 version: '3.3'
 
 services:
-  pg:
+  db:
     container_name: iot_db
-    image: postgres:14.1
+    image: mariadb
     environment:
-      - POSTGRES_PASSWORD=gomusic
-      - POSTGRES_USER=gomusic
-      - POSTGRES_DB=gomusic
+      - MYSQL_DATABASE=iot
+      - MYSQL_USER=iot
+      - MYSQL_PASSWORD=iot
+      - MYSQL_ROOT_PASSWORD=iot
     ports:
-      - 5432:5432
+      - 3306:3306
+  phpmyadmin:
+    container_name: iot_phpmyadmin
+    image: phpmyadmin
+    ports:
+      - 8081:80
+    environment:
+      - PMA_HOST=db
+      - PMA_PORT=3306
+      - PMA_USER=iot
+      - PMA_PASSWORD=iot
   rabbitmq:
     container_name: iot_rmq
     image: rabbitmq:3.9.13-management

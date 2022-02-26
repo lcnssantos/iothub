@@ -4,9 +4,9 @@ import (
 	"context"
 	"errors"
 
-	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/auth/dto"
-	dto2 "github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/dto"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/service"
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/auth/dto"
+	dto2 "github.com/lcnssantos/iothub/cmd/iothub/internal/user/dto"
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/service"
 )
 
 type AuthService struct {

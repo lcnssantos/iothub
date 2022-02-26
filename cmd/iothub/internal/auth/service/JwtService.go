@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/golang-jwt/jwt"
-	"github.com/lcnssantos/gomusic/config"
+	"github.com/lcnssantos/iothub/config"
 )
 
 type TokenClaims struct {
@@ -23,8 +23,8 @@ func (this JwtService) Encode(id string, kind string, expirationTime int) (strin
 	tokenClaims := TokenClaims{
 		id, kind,
 		jwt.StandardClaims{
-			Issuer:    "gomusic",
-			Subject:   "gomusic",
+			Issuer:    "iothub",
+			Subject:   "iothub",
 			IssuedAt:  time.Now().Unix(),
 			ExpiresAt: time.Now().Add(time.Second * time.Duration(expirationTime)).Unix(),
 		},

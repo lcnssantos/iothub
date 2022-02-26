@@ -2,8 +2,8 @@ package router
 
 import (
 	"github.com/gorilla/mux"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/auth/middleware"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/controller"
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/auth/middleware"
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/controller"
 )
 
 func BuildMeRouter(controller *controller.MeController, router *mux.Router, middleware *middleware.AuthenticationMiddleware) {

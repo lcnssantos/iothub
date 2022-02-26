@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"strconv"
 
-	"github.com/lcnssantos/gomusic/config"
+	"github.com/lcnssantos/iothub/config"
 	_ "github.com/lib/pq"
 )
 

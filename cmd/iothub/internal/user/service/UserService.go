@@ -3,8 +3,9 @@ package service
 import (
 	"context"
 	"errors"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/dto"
-	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/user/repository"
+
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/dto"
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/repository"
 )
 
 type UserService struct {

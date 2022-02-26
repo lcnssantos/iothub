@@ -7,10 +7,10 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	"github.com/lcnssantos/gomusic/internal/middlewares"
+	"github.com/lcnssantos/iothub/internal/middlewares"
 
-	"github.com/lcnssantos/gomusic/config"
-	"github.com/lcnssantos/gomusic/internal/database"
+	"github.com/lcnssantos/iothub/config"
+	"github.com/lcnssantos/iothub/internal/database"
 )
 
 func BuildModules(db *sql.DB, router *mux.Router) {

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/lcnssantos/gomusic/cmd/gomusic/internal/auth/service"
-	http2 "github.com/lcnssantos/gomusic/internal/http"
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/auth/service"
+	http2 "github.com/lcnssantos/iothub/internal/http"
 )
 
 type AuthenticationMiddleware struct {

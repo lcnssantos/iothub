@@ -1,4 +1,4 @@
-module github.com/lcnssantos/gomusic
+module github.com/lcnssantos/iothub
 
 go 1.17
 
