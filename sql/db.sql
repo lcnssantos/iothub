@@ -14,10 +14,11 @@ CREATE TABLE `users`
 CREATE TABLE `accounts` 
 ( 
     `id` BIGINT NOT NULL AUTO_INCREMENT, 
-    `vhost` TEXT NOT NULL , 
+    `login` TEXT NOT NULL,
+    `password` TEXT NOT NULL,
     `userId` BIGINT NOT NULL,
-    `createdAt` DATETIME NOT NULL , 
-    `updatedAt` DATETIME NOT NULL , 
+    `createdAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    `updatedAt` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (`id`),
-    FOREIGN KEY (`userId`) REFERENCES `users`(`id`)
+    FOREIGN KEY (`userId`) REFERENCES `users`(`id`) ON DELETE CASCADE ON UPDATE CASCADE
 );

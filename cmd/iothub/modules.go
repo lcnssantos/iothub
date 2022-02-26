@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	repository2 "github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/repository"
 	service3 "github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/service"
+	"github.com/lcnssantos/iothub/cmd/iothub/internal/rmq"
+	"github.com/lcnssantos/iothub/config"
 
 	controller2 "github.com/lcnssantos/iothub/cmd/iothub/internal/auth/controller"
 	"github.com/lcnssantos/iothub/cmd/iothub/internal/auth/middleware"
@@ -18,10 +20,14 @@ import (
 )
 
 func BuildUserModule(db *sql.DB, r *mux.Router) {
+	config := config.Get()
+
 	userRepository := repository.NewUserRepository(db)
 	accountRepository := repository2.NewAccountRepository(db)
 
-	accountService := service3.NewAccountService(accountRepository)
+	rmqClient := rmq.NewRMQClient(config.RMQ_HOST, config.RMQ_PORT, config.RMQ_USER, config.RMQ_PASS)
+
+	accountService := service3.NewAccountService(accountRepository, rmqClient)
 	hashService := service2.NewHashService()
 	userService := service2.NewUserService(userRepository, hashService, accountService)
 	jwtService := service.NewJwtService()
@@ -37,10 +43,13 @@ func BuildUserModule(db *sql.DB, r *mux.Router) {
 }
 
 func BuildAuthModule(db *sql.DB, r *mux.Router) {
+	config := config.Get()
+
 	userRepository := repository.NewUserRepository(db)
 	accountRepository := repository2.NewAccountRepository(db)
+	rmqClient := rmq.NewRMQClient(config.RMQ_HOST, config.RMQ_PORT, config.RMQ_USER, config.RMQ_PASS)
 
-	accountService := service3.NewAccountService(accountRepository)
+	accountService := service3.NewAccountService(accountRepository, rmqClient)
 	hashService := service2.NewHashService()
 	userService := service2.NewUserService(userRepository, hashService, accountService)
 	jwtService := service.NewJwtService()

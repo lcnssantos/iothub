@@ -16,6 +16,10 @@ type Configuration struct {
 	DB_POOL_SIZE string `validate:"required"`
 	PORT         string `validate:"required"`
 	JWT_KEY      string `validate:"required"`
+	RMQ_HOST     string `validate:"required"`
+	RMQ_PORT     string `validate:"required"`
+	RMQ_USER     string `validate:"required"`
+	RMQ_PASS     string `validate:"required"`
 }
 
 func Get() *Configuration {
@@ -29,6 +33,10 @@ func Get() *Configuration {
 		DB_POOL_SIZE: os.Getenv("DB_POOL_SIZE"),
 		PORT:         os.Getenv("PORT"),
 		JWT_KEY:      os.Getenv("JWT_KEY"),
+		RMQ_HOST:     os.Getenv("RMQ_HOST"),
+		RMQ_PASS:     os.Getenv("RMQ_PASS"),
+		RMQ_PORT:     os.Getenv("RMQ_PORT"),
+		RMQ_USER:     os.Getenv("RMQ_USER"),
 	}
 }
 

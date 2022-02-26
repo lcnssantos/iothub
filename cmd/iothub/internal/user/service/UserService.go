@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+	"github.com/lcnssantos/iothub/internal/seed"
 
 	dto2 "github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/dto"
 	"github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/service"
@@ -41,7 +42,7 @@ func (this UserService) Create(data dto.CreateUserDto, ctx context.Context) erro
 		return err
 	}
 
-	return this.accountService.CreateAccount(&dto2.CreateAccountRequest{Vhost: data.Email, UserId: user.Id}, ctx)
+	return this.accountService.CreateAccount(&dto2.CreateAccountRequest{Login: data.Email, Password: seed.String(24), UserId: user.Id}, ctx)
 }
 
 func (this UserService) FindOneByEmail(email string, ctx context.Context) (*dto.User, error) {

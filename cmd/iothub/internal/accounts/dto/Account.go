@@ -14,6 +14,7 @@ type Account struct {
 }
 
 type CreateAccountRequest struct {
-	Vhost  string `json:"vhost"`
-	UserId uint64 `json:"userId"`
+	Login    string `json:"login"`
+	Password string `json:"password"`
+	UserId   uint64 `json:"userId"`
 }
