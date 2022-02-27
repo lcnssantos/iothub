@@ -9,12 +9,12 @@ import (
 
 func HandleValidationRequest(w http.ResponseWriter, r *http.Request, data interface{}) error {
 	if err := json.NewDecoder(r.Body).Decode(&data); err != nil {
-		ThrowHttpError(w, http.StatusBadRequest, "Invalid Bod Request")
+		ThrowHttpException(w, http.StatusBadRequest, "Invalid Bod Request")
 		return err
 	}
 
 	if err := validator.New().Struct(data); err != nil {
-		ThrowHttpError(w, http.StatusBadRequest, err.Error())
+		ThrowHttpException(w, http.StatusBadRequest, err.Error())
 		return err
 	}
 

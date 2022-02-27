@@ -17,26 +17,26 @@ func NewAuthenticationMiddleware(authService *service.AuthService) *Authenticati
 	return &AuthenticationMiddleware{authService: authService}
 }
 
-func (this AuthenticationMiddleware) Handler(next http.Handler) http.Handler {
+func (m AuthenticationMiddleware) Handler(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		authorization := r.Header.Get("Authorization")
 
 		if authorization == "" {
-			http2.ThrowHttpError(w, http.StatusUnauthorized, "Missing JWT Token")
+			http2.ThrowHttpException(w, http.StatusUnauthorized, "Missing JWT Token")
 			return
 		}
 
 		bearerToken := strings.Replace(authorization, "Bearer ", "", 1)
 
-		user, err := this.authService.GetByToken(bearerToken, r.Context())
+		user, err := m.authService.GetByToken(bearerToken, r.Context())
 
 		if err != nil {
-			http2.ThrowHttpError(w, http.StatusUnauthorized, err.Error())
+			http2.ThrowHttpException(w, http.StatusUnauthorized, err.Error())
 			return
 		}
 
 		if !user.Active {
-			http2.ThrowHttpError(w, http.StatusForbidden, "User not active")
+			http2.ThrowHttpException(w, http.StatusForbidden, "User not active")
 			return
 		}
 

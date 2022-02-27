@@ -18,22 +18,14 @@ type UserService struct {
 	accountService *service.AccountService
 }
 
-func (this UserService) Create(data dto.CreateUserDto, ctx context.Context) error {
-	_, err := this.repository.FindOneByEmail(data.Email, ctx)
+func (s UserService) Create(data dto.CreateUserDto, ctx context.Context) error {
+	_, err := s.repository.FindOneByEmail(data.Email, ctx)
 
 	if err == nil {
-		return errors.New("Email already exist")
+		return errors.New("email already exist")
 	}
 
-	hash, err := this.hashService.Hash(data.Password)
-
-	if err != nil {
-		return err
-	}
-
-	data.Password = hash
-
-	tx, err := this.repository.GetTransaction(ctx)
+	tx, err := s.repository.GetTransaction(ctx)
 
 	if err != nil {
 		return err
@@ -41,11 +33,19 @@ func (this UserService) Create(data dto.CreateUserDto, ctx context.Context) erro
 
 	defer tx.Rollback()
 
-	if err := this.repository.Create(data, tx); err != nil {
+	hash, err := s.hashService.Hash(data.Password)
+
+	if err != nil {
 		return err
 	}
 
-	err = this.accountService.CreateAccount(&dto2.CreateAccountRequest{Login: seed.String(24), Password: seed.String(24), Email: data.Email}, tx)
+	data.Password = hash
+
+	if err := s.repository.Create(data, tx); err != nil {
+		return err
+	}
+
+	err = s.accountService.CreateAccount(&dto2.CreateAccountRequest{Login: seed.String(24), Password: seed.String(24), Email: data.Email}, tx)
 
 	if err != nil {
 		return err
@@ -54,16 +54,16 @@ func (this UserService) Create(data dto.CreateUserDto, ctx context.Context) erro
 	return tx.Commit()
 }
 
-func (this UserService) FindOneByEmail(email string, ctx context.Context) (*dto.User, error) {
-	return this.repository.FindOneByEmail(email, ctx)
+func (s UserService) FindOneByEmail(email string, ctx context.Context) (*dto.User, error) {
+	return s.repository.FindOneByEmail(email, ctx)
 }
 
-func (this UserService) FindOneById(id uint64, ctx context.Context) (*dto.User, error) {
-	return this.repository.FindOneById(id, ctx)
+func (s UserService) FindOneById(id uint64, ctx context.Context) (*dto.User, error) {
+	return s.repository.FindOneById(id, ctx)
 }
 
-func (this UserService) List(ctx context.Context) ([]*dto.User, error) {
-	return this.repository.List(ctx)
+func (s UserService) List(ctx context.Context) ([]*dto.User, error) {
+	return s.repository.List(ctx)
 }
 
 func NewUserService(repository *repository.UserRepository, hashService *HashService, accountService *service.AccountService) *UserService {

@@ -43,7 +43,11 @@ func ExecuteTransaction(ctx context.Context, db *sql.DB, handler func(tx *sql.Tx
 		return err
 	}
 
-	tx.Commit()
+	err = tx.Commit()
+
+	if err != nil {
+		return err
+	}
 
 	return nil
 }

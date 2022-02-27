@@ -11,21 +11,21 @@ import (
 
 type AccountService struct {
 	accountRepository *repository.AccountRepository
-	rmqClient         *rmq.RMQClient
+	rmqClient         *rmq.Client
 }
 
-func NewAccountService(accountRepository *repository.AccountRepository, rmqClient *rmq.RMQClient) *AccountService {
+func NewAccountService(accountRepository *repository.AccountRepository, rmqClient *rmq.Client) *AccountService {
 	return &AccountService{accountRepository: accountRepository, rmqClient: rmqClient}
 }
 
-func (this AccountService) CreateAccount(data *dto.CreateAccountRequest, tx *sql.Tx) error {
-	err := this.accountRepository.CreateAccount(data, tx)
+func (s AccountService) CreateAccount(data *dto.CreateAccountRequest, tx *sql.Tx) error {
+	err := s.accountRepository.CreateAccount(data, tx)
 
 	if err != nil {
 		return err
 	}
 
-	err = this.rmqClient.CreateAccount(data.Login, data.Password)
+	err = s.rmqClient.CreateAccount(data.Login, data.Password)
 
 	if err != nil {
 		return err

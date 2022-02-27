@@ -16,11 +16,11 @@ func NewUserRepository(database *sql.DB) *UserRepository {
 	return &UserRepository{database: database}
 }
 
-func (this UserRepository) GetTransaction(ctx context.Context) (*sql.Tx, error) {
-	return database.GetTransaction(ctx, this.database)
+func (r UserRepository) GetTransaction(ctx context.Context) (*sql.Tx, error) {
+	return database.GetTransaction(ctx, r.database)
 }
 
-func (this UserRepository) Create(data dto.CreateUserDto, tx *sql.Tx) error {
+func (r UserRepository) Create(data dto.CreateUserDto, tx *sql.Tx) error {
 	prepare, err := tx.Prepare("INSERT INTO users (name, email, password, active) values (?, ?, ?, false)")
 
 	if err != nil {
@@ -33,30 +33,14 @@ func (this UserRepository) Create(data dto.CreateUserDto, tx *sql.Tx) error {
 
 }
 
-func (this UserRepository) FindOneByEmail(email string, ctx context.Context) (*dto.User, error) {
-	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users where email = ? limit 1")
+func (r UserRepository) FindOneByEmail(email string, ctx context.Context) (*dto.User, error) {
+	prepare, err := r.database.PrepareContext(ctx, "SELECT * FROM users where email = ? limit 1")
 
 	if err != nil {
 		return nil, err
 	}
 
-	user, err := this.scanEntity(prepare.QueryRow(email))
-
-	if err != nil {
-		return nil, err
-	}
-
-	return user, nil
-}
-
-func (this UserRepository) FindOneById(id uint64, ctx context.Context) (*dto.User, error) {
-	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users WHERE id = ? LIMIT 1")
-
-	if err != nil {
-		return nil, err
-	}
-
-	user, err := this.scanEntity(prepare.QueryRow(id))
+	user, err := r.scanEntity(prepare.QueryRow(email))
 
 	if err != nil {
 		return nil, err
@@ -65,8 +49,24 @@ func (this UserRepository) FindOneById(id uint64, ctx context.Context) (*dto.Use
 	return user, nil
 }
 
-func (this UserRepository) List(ctx context.Context) ([]*dto.User, error) {
-	prepare, err := this.database.PrepareContext(ctx, "SELECT * FROM users")
+func (r UserRepository) FindOneById(id uint64, ctx context.Context) (*dto.User, error) {
+	prepare, err := r.database.PrepareContext(ctx, "SELECT * FROM users WHERE id = ? LIMIT 1")
+
+	if err != nil {
+		return nil, err
+	}
+
+	user, err := r.scanEntity(prepare.QueryRow(id))
+
+	if err != nil {
+		return nil, err
+	}
+
+	return user, nil
+}
+
+func (r UserRepository) List(ctx context.Context) ([]*dto.User, error) {
+	prepare, err := r.database.PrepareContext(ctx, "SELECT * FROM users")
 
 	if err != nil {
 		return nil, err
@@ -78,15 +78,15 @@ func (this UserRepository) List(ctx context.Context) ([]*dto.User, error) {
 		return nil, err
 	}
 
-	return this.scanEntities(rows)
+	return r.scanEntities(rows)
 }
 
-func (this UserRepository) scanEntities(r *sql.Rows) ([]*dto.User, error) {
+func (r UserRepository) scanEntities(row *sql.Rows) ([]*dto.User, error) {
 	users := make([]*dto.User, 0)
 
-	for r.Next() {
+	for row.Next() {
 		user := new(dto.User)
-		err := r.Scan(&user.Id, &user.Name, &user.Password, &user.Email, &user.Active, &user.CreatedAt, &user.UpdatedAt)
+		err := row.Scan(&user.Id, &user.Name, &user.Password, &user.Email, &user.Active, &user.CreatedAt, &user.UpdatedAt)
 		if err != nil {
 			return nil, err
 		}
@@ -96,8 +96,8 @@ func (this UserRepository) scanEntities(r *sql.Rows) ([]*dto.User, error) {
 	return users, nil
 }
 
-func (this UserRepository) scanEntity(r *sql.Row) (*dto.User, error) {
+func (r UserRepository) scanEntity(row *sql.Row) (*dto.User, error) {
 	var user = dto.User{}
-	err := r.Scan(&user.Id, &user.Name, &user.Password, &user.Email, &user.Active, &user.CreatedAt, &user.UpdatedAt)
+	err := row.Scan(&user.Id, &user.Name, &user.Password, &user.Email, &user.Active, &user.CreatedAt, &user.UpdatedAt)
 	return &user, err
 }

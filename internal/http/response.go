@@ -5,7 +5,7 @@ import (
 	"net/http"
 )
 
-func SetResponse(w http.ResponseWriter, status int, data interface{}) {
+func SendHttpResponse(w http.ResponseWriter, status int, data interface{}) {
 	w.WriteHeader(status)
 	if data != nil {
 		answer, _ := json.Marshal(data)

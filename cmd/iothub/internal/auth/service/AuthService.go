@@ -19,8 +19,8 @@ func NewAuthService(userService *service.UserService, hashService *service.HashS
 	return &AuthService{userService: userService, hashService: hashService, JwtService: jwtService}
 }
 
-func (this AuthService) Auth(data dto.AuthRequest, ctx context.Context) (*dto2.User, error) {
-	user, err := this.userService.FindOneByEmail(data.Email, ctx)
+func (s AuthService) Auth(data dto.AuthRequest, ctx context.Context) (*dto2.User, error) {
+	user, err := s.userService.FindOneByEmail(data.Email, ctx)
 
 	if err != nil {
 		return nil, err
@@ -30,7 +30,7 @@ func (this AuthService) Auth(data dto.AuthRequest, ctx context.Context) (*dto2.U
 		return nil, errors.New("User not active")
 	}
 
-	compare := this.hashService.Compare(user.Password, data.Password)
+	compare := s.hashService.Compare(user.Password, data.Password)
 
 	if compare {
 		return user, nil
@@ -39,16 +39,16 @@ func (this AuthService) Auth(data dto.AuthRequest, ctx context.Context) (*dto2.U
 	return nil, errors.New("invalid credentials")
 }
 
-func (this AuthService) CreateRefreshToken(data dto2.User) (string, error) {
-	return this.JwtService.Encode(data.Id, "refresh", 24*60*60)
+func (s AuthService) CreateRefreshToken(data dto2.User) (string, error) {
+	return s.JwtService.Encode(data.Id, "refresh", 24*60*60)
 }
 
-func (this AuthService) CreateAccessToken(data dto2.User) (string, error) {
-	return this.JwtService.Encode(data.Id, "token", 15*60)
+func (s AuthService) CreateAccessToken(data dto2.User) (string, error) {
+	return s.JwtService.Encode(data.Id, "token", 15*60)
 }
 
-func (this AuthService) GetByToken(token string, ctx context.Context) (*dto2.User, error) {
-	claims, err := this.JwtService.Decode(token)
+func (s AuthService) GetByToken(token string, ctx context.Context) (*dto2.User, error) {
+	claims, err := s.JwtService.Decode(token)
 
 	if err != nil {
 		return nil, err
@@ -58,11 +58,11 @@ func (this AuthService) GetByToken(token string, ctx context.Context) (*dto2.Use
 		return nil, errors.New("Invalid Token type")
 	}
 
-	return this.userService.FindOneById(claims.Id, ctx)
+	return s.userService.FindOneById(claims.Id, ctx)
 }
 
-func (this AuthService) RefreshToken(refreshToken string, ctx context.Context) (string, string, error) {
-	claims, err := this.JwtService.Decode(refreshToken)
+func (s AuthService) RefreshToken(refreshToken string, ctx context.Context) (string, string, error) {
+	claims, err := s.JwtService.Decode(refreshToken)
 
 	if err != nil {
 		return "", "", err
@@ -72,7 +72,7 @@ func (this AuthService) RefreshToken(refreshToken string, ctx context.Context) (
 		return "", "", errors.New("Invalid Token type")
 	}
 
-	user, err := this.userService.FindOneById(claims.Id, ctx)
+	user, err := s.userService.FindOneById(claims.Id, ctx)
 
 	if err != nil {
 		return "", "", err
@@ -82,13 +82,13 @@ func (this AuthService) RefreshToken(refreshToken string, ctx context.Context) (
 		return "", "", errors.New("User not active")
 	}
 
-	jwtToken, err := this.CreateAccessToken(*user)
+	jwtToken, err := s.CreateAccessToken(*user)
 
 	if err != nil {
 		return "", "", errors.New("Error to create token")
 	}
 
-	refreshToken, err = this.CreateRefreshToken(*user)
+	refreshToken, err = s.CreateRefreshToken(*user)
 
 	if err != nil {
 		return "", "", errors.New("Error to create token")

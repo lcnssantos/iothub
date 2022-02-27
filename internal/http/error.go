@@ -9,6 +9,6 @@ type HttpError struct {
 	Message string `json:"message"`
 }
 
-func ThrowHttpError(w http.ResponseWriter, status int, message string) {
-	SetResponse(w, status, HttpError{Message: message, Status: status})
+func ThrowHttpException(w http.ResponseWriter, status int, message string) {
+	SendHttpResponse(w, status, HttpError{Message: message, Status: status})
 }

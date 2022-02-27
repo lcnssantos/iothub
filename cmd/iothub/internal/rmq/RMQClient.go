@@ -11,15 +11,15 @@ import (
 	"time"
 )
 
-type RMQClient struct {
+type Client struct {
 	host       string
 	user       string
 	password   string
 	httpClient *http.Client
 }
 
-func NewRMQClient(host string, user string, password string) *RMQClient {
-	return &RMQClient{host: host, user: user, password: password, httpClient: &http.Client{Timeout: time.Duration(20) * time.Second}}
+func NewRMQClient(host string, user string, password string) *Client {
+	return &Client{host: host, user: user, password: password, httpClient: &http.Client{Timeout: time.Duration(20) * time.Second}}
 }
 
 type CreateUserRequest struct {
@@ -27,7 +27,7 @@ type CreateUserRequest struct {
 	Tags     string `json:"tags"`
 }
 
-func (c RMQClient) CreateAccount(login string, password string) error {
+func (c Client) CreateAccount(login string, password string) error {
 	endpoint := fmt.Sprintf("/api/users/%s", login)
 	url := fmt.Sprintf("%s%s", c.host, endpoint)
 	userRequest := CreateUserRequest{Password: password, Tags: ""}
