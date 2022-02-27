@@ -38,7 +38,7 @@ func BuildUserModule(db *sql.DB, r *mux.Router) {
 
 	authMiddleware := middleware.NewAuthenticationMiddleware(authService)
 
-	router.BuildUserRouter(userController, r.PathPrefix("/user").Subrouter())
+	router.BuildUserRouter(userController, r.PathPrefix("/user").Subrouter(), authMiddleware)
 	router.BuildMeRouter(meController, r.PathPrefix("/me").Subrouter(), authMiddleware)
 }
 

@@ -27,7 +27,7 @@ func (s AuthService) Auth(data dto.AuthRequest, ctx context.Context) (*dto2.User
 	}
 
 	if !user.Active {
-		return nil, errors.New("User not active")
+		return nil, errors.New("user not active")
 	}
 
 	compare := s.hashService.Compare(user.Password, data.Password)
@@ -69,7 +69,7 @@ func (s AuthService) RefreshToken(refreshToken string, ctx context.Context) (str
 	}
 
 	if claims.Kind != "refresh" {
-		return "", "", errors.New("Invalid Token type")
+		return "", "", errors.New("invalid Token type")
 	}
 
 	user, err := s.userService.FindOneById(claims.Id, ctx)
@@ -79,19 +79,19 @@ func (s AuthService) RefreshToken(refreshToken string, ctx context.Context) (str
 	}
 
 	if !user.Active {
-		return "", "", errors.New("User not active")
+		return "", "", errors.New("user not active")
 	}
 
 	jwtToken, err := s.CreateAccessToken(*user)
 
 	if err != nil {
-		return "", "", errors.New("Error to create token")
+		return "", "", errors.New("error to create token")
 	}
 
 	refreshToken, err = s.CreateRefreshToken(*user)
 
 	if err != nil {
-		return "", "", errors.New("Error to create token")
+		return "", "", errors.New("error to create token")
 	}
 
 	return jwtToken, refreshToken, nil
