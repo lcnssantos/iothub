@@ -23,7 +23,7 @@ func (s AuthService) Auth(data dto.AuthRequest, ctx context.Context) (*dto2.User
 	user, err := s.userService.FindOneByEmail(data.Email, ctx)
 
 	if err != nil {
-		return nil, err
+		return nil, errors.New("invalid credentials")
 	}
 
 	if !user.Active {
