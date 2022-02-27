@@ -20,6 +20,7 @@ type Configuration struct {
 	RMQ_PORT     string `validate:"required"`
 	RMQ_USER     string `validate:"required"`
 	RMQ_PASS     string `validate:"required"`
+	RMQ_API_URL  string `validate:"required""`
 }
 
 func Get() *Configuration {
@@ -37,6 +38,7 @@ func Get() *Configuration {
 		RMQ_PASS:     os.Getenv("RMQ_PASS"),
 		RMQ_PORT:     os.Getenv("RMQ_PORT"),
 		RMQ_USER:     os.Getenv("RMQ_USER"),
+		RMQ_API_URL:  os.Getenv("RMQ_API_URL"),
 	}
 }
 

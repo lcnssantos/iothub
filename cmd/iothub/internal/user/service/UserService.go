@@ -42,7 +42,7 @@ func (this UserService) Create(data dto.CreateUserDto, ctx context.Context) erro
 		return err
 	}
 
-	return this.accountService.CreateAccount(&dto2.CreateAccountRequest{Login: data.Email, Password: seed.String(24), UserId: user.Id}, ctx)
+	return this.accountService.CreateAccount(&dto2.CreateAccountRequest{Login: seed.String(24), Password: seed.String(24), UserId: user.Id}, ctx)
 }
 
 func (this UserService) FindOneByEmail(email string, ctx context.Context) (*dto.User, error) {

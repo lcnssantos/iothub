@@ -25,7 +25,7 @@ func BuildUserModule(db *sql.DB, r *mux.Router) {
 	userRepository := repository.NewUserRepository(db)
 	accountRepository := repository2.NewAccountRepository(db)
 
-	rmqClient := rmq.NewRMQClient(config.RMQ_HOST, config.RMQ_PORT, config.RMQ_USER, config.RMQ_PASS)
+	rmqClient := rmq.NewRMQClient(config.RMQ_API_URL, config.RMQ_USER, config.RMQ_PASS)
 
 	accountService := service3.NewAccountService(accountRepository, rmqClient)
 	hashService := service2.NewHashService()
@@ -47,7 +47,7 @@ func BuildAuthModule(db *sql.DB, r *mux.Router) {
 
 	userRepository := repository.NewUserRepository(db)
 	accountRepository := repository2.NewAccountRepository(db)
-	rmqClient := rmq.NewRMQClient(config.RMQ_HOST, config.RMQ_PORT, config.RMQ_USER, config.RMQ_PASS)
+	rmqClient := rmq.NewRMQClient(config.RMQ_API_URL, config.RMQ_USER, config.RMQ_PASS)
 
 	accountService := service3.NewAccountService(accountRepository, rmqClient)
 	hashService := service2.NewHashService()
