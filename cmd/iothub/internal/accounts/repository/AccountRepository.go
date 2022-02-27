@@ -1,9 +1,7 @@
 package repository
 
 import (
-	"context"
 	"database/sql"
-	"github.com/lcnssantos/iothub/internal/database"
 
 	"github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/dto"
 )
@@ -12,22 +10,21 @@ type AccountRepository struct {
 	db *sql.DB
 }
 
-func (this AccountRepository) CreateAccount(data *dto.CreateAccountRequest, ctx context.Context) error {
-	return database.ExecuteTransaction(ctx, this.db, func(tx *sql.Tx) error {
-		prepare, err := tx.Prepare("INSERT INTO accounts (login, password, userId) values (?, ?, ?)")
+func (this AccountRepository) CreateAccount(data *dto.CreateAccountRequest, tx *sql.Tx) error {
+	prepare, err := tx.Prepare("INSERT INTO accounts (login, password, userId) values (?, ?, (SELECT id from users WHERE email = ?))")
 
-		if err != nil {
-			return err
-		}
+	if err != nil {
+		return err
+	}
 
-		_, err = prepare.Exec(data.Login, data.Password, data.UserId)
+	_, err = prepare.Exec(data.Login, data.Password, data.Email)
 
-		if err != nil {
-			return err
-		}
+	if err != nil {
+		return err
+	}
 
-		return nil
-	})
+	return nil
+
 }
 
 func NewAccountRepository(database *sql.DB) *AccountRepository {

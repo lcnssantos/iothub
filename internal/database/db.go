@@ -47,3 +47,13 @@ func ExecuteTransaction(ctx context.Context, db *sql.DB, handler func(tx *sql.Tx
 
 	return nil
 }
+
+func GetTransaction(ctx context.Context, db *sql.DB) (*sql.Tx, error) {
+	tx, err := db.BeginTx(ctx, nil)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return tx, nil
+}

@@ -16,5 +16,5 @@ type Account struct {
 type CreateAccountRequest struct {
 	Login    string `json:"login"`
 	Password string `json:"password"`
-	UserId   uint64 `json:"userId"`
+	Email    string `json:"email"`
 }

@@ -1,7 +1,8 @@
 package service
 
 import (
-	"context"
+	"database/sql"
+
 	"github.com/lcnssantos/iothub/cmd/iothub/internal/rmq"
 
 	"github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/dto"
@@ -17,8 +18,8 @@ func NewAccountService(accountRepository *repository.AccountRepository, rmqClien
 	return &AccountService{accountRepository: accountRepository, rmqClient: rmqClient}
 }
 
-func (this AccountService) CreateAccount(data *dto.CreateAccountRequest, ctx context.Context) error {
-	err := this.accountRepository.CreateAccount(data, ctx)
+func (this AccountService) CreateAccount(data *dto.CreateAccountRequest, tx *sql.Tx) error {
+	err := this.accountRepository.CreateAccount(data, tx)
 
 	if err != nil {
 		return err

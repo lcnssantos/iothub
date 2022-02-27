@@ -19,7 +19,7 @@ type RMQClient struct {
 }
 
 func NewRMQClient(host string, user string, password string) *RMQClient {
-	return &RMQClient{host: host, user: user, password: password, httpClient: &http.Client{Timeout: time.Duration(2) * time.Second}}
+	return &RMQClient{host: host, user: user, password: password, httpClient: &http.Client{Timeout: time.Duration(20) * time.Second}}
 }
 
 type CreateUserRequest struct {
@@ -27,9 +27,9 @@ type CreateUserRequest struct {
 	Tags     string `json:"tags"`
 }
 
-func (this RMQClient) CreateAccount(login string, password string) error {
+func (c RMQClient) CreateAccount(login string, password string) error {
 	endpoint := fmt.Sprintf("/api/users/%s", login)
-	url := fmt.Sprintf("%s%s", this.host, endpoint)
+	url := fmt.Sprintf("%s%s", c.host, endpoint)
 	userRequest := CreateUserRequest{Password: password, Tags: ""}
 
 	jsonReq, err := json.Marshal(userRequest)
@@ -39,8 +39,8 @@ func (this RMQClient) CreateAccount(login string, password string) error {
 	}
 
 	req, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(jsonReq))
-	req.SetBasicAuth(this.user, this.password)
-	res, err := this.httpClient.Do(req)
+	req.SetBasicAuth(c.user, c.password)
+	res, err := c.httpClient.Do(req)
 
 	if err != nil {
 		return err

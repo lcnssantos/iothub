@@ -3,6 +3,7 @@ package service
 import (
 	"context"
 	"errors"
+
 	"github.com/lcnssantos/iothub/internal/seed"
 
 	dto2 "github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/dto"
@@ -32,17 +33,25 @@ func (this UserService) Create(data dto.CreateUserDto, ctx context.Context) erro
 
 	data.Password = hash
 
-	if err := this.repository.Create(data, ctx); err != nil {
-		return err
-	}
-
-	user, err := this.repository.FindOneByEmail(data.Email, ctx)
+	tx, err := this.repository.GetTransaction(ctx)
 
 	if err != nil {
 		return err
 	}
 
-	return this.accountService.CreateAccount(&dto2.CreateAccountRequest{Login: seed.String(24), Password: seed.String(24), UserId: user.Id}, ctx)
+	defer tx.Rollback()
+
+	if err := this.repository.Create(data, tx); err != nil {
+		return err
+	}
+
+	err = this.accountService.CreateAccount(&dto2.CreateAccountRequest{Login: seed.String(24), Password: seed.String(24), Email: data.Email}, tx)
+
+	if err != nil {
+		return err
+	}
+
+	return tx.Commit()
 }
 
 func (this UserService) FindOneByEmail(email string, ctx context.Context) (*dto.User, error) {

@@ -5,7 +5,6 @@ import (
 	"database/sql"
 
 	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/dto"
-
 	"github.com/lcnssantos/iothub/internal/database"
 )
 
@@ -17,19 +16,21 @@ func NewUserRepository(database *sql.DB) *UserRepository {
 	return &UserRepository{database: database}
 }
 
-func (this UserRepository) Create(data dto.CreateUserDto, ctx context.Context) error {
-	return database.ExecuteTransaction(ctx, this.database, func(tx *sql.Tx) error {
+func (this UserRepository) GetTransaction(ctx context.Context) (*sql.Tx, error) {
+	return database.GetTransaction(ctx, this.database)
+}
 
-		prepare, err := tx.Prepare("INSERT INTO users (name, email, password, active) values (?, ?, ?, false)")
+func (this UserRepository) Create(data dto.CreateUserDto, tx *sql.Tx) error {
+	prepare, err := tx.Prepare("INSERT INTO users (name, email, password, active) values (?, ?, ?, false)")
 
-		if err != nil {
-			return err
-		}
-
-		_, err = prepare.Exec(data.Name, data.Email, data.Password)
-
+	if err != nil {
 		return err
-	})
+	}
+
+	_, err = prepare.Exec(data.Name, data.Email, data.Password)
+
+	return err
+
 }
 
 func (this UserRepository) FindOneByEmail(email string, ctx context.Context) (*dto.User, error) {
