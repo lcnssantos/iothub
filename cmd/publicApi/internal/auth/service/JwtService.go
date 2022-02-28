@@ -1,10 +1,10 @@
 package service
 
 import (
+	"github.com/lcnssantos/iothub/cmd/publicApi/config"
 	"time"
 
 	"github.com/golang-jwt/jwt"
-	"github.com/lcnssantos/iothub/config"
 )
 
 type TokenClaims struct {

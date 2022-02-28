@@ -4,10 +4,10 @@ import (
 	"context"
 	"database/sql"
 	"fmt"
+	"github.com/lcnssantos/iothub/cmd/publicApi/config"
 	"strconv"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/lcnssantos/iothub/config"
 )
 
 func GetConnection() (*sql.DB, error) {

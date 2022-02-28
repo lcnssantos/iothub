@@ -3,13 +3,13 @@ package main
 import (
 	"database/sql"
 	"fmt"
+	"github.com/lcnssantos/iothub/cmd/publicApi/config"
 	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"github.com/lcnssantos/iothub/internal/middlewares"
 
-	"github.com/lcnssantos/iothub/config"
 	"github.com/lcnssantos/iothub/internal/database"
 )
 
