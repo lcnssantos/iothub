@@ -6,10 +6,10 @@ import (
 
 	"github.com/lcnssantos/iothub/internal/seed"
 
-	dto2 "github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/dto"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/service"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/dto"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/repository"
+	dto2 "github.com/lcnssantos/iothub/cmd/publicApi/internal/accounts/dto"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/accounts/service"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/user/dto"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/user/repository"
 )
 
 type UserService struct {

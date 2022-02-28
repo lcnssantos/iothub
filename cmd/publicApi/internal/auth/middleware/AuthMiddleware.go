@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/auth/service"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/auth/service"
 	http2 "github.com/lcnssantos/iothub/internal/http"
 )
 

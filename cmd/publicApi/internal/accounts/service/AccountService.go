@@ -3,10 +3,10 @@ package service
 import (
 	"database/sql"
 
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/rmq"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/rmq"
 
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/dto"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/repository"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/accounts/dto"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/accounts/repository"
 )
 
 type AccountService struct {

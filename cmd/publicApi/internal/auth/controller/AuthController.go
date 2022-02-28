@@ -3,8 +3,8 @@ package controller
 import (
 	"net/http"
 
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/auth/dto"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/auth/service"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/auth/dto"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/auth/service"
 	http2 "github.com/lcnssantos/iothub/internal/http"
 )
 

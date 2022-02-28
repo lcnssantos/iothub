@@ -2,21 +2,22 @@ package main
 
 import (
 	"database/sql"
-	repository2 "github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/repository"
-	service3 "github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/service"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/rmq"
+
+	repository2 "github.com/lcnssantos/iothub/cmd/publicApi/internal/accounts/repository"
+	service3 "github.com/lcnssantos/iothub/cmd/publicApi/internal/accounts/service"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/rmq"
 	"github.com/lcnssantos/iothub/config"
 
-	controller2 "github.com/lcnssantos/iothub/cmd/iothub/internal/auth/controller"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/auth/middleware"
-	router2 "github.com/lcnssantos/iothub/cmd/iothub/internal/auth/router"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/auth/service"
+	controller2 "github.com/lcnssantos/iothub/cmd/publicApi/internal/auth/controller"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/auth/middleware"
+	router2 "github.com/lcnssantos/iothub/cmd/publicApi/internal/auth/router"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/auth/service"
 
 	"github.com/gorilla/mux"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/controller"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/repository"
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/router"
-	service2 "github.com/lcnssantos/iothub/cmd/iothub/internal/user/service"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/user/controller"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/user/repository"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/user/router"
+	service2 "github.com/lcnssantos/iothub/cmd/publicApi/internal/user/service"
 )
 
 func BuildUserModule(db *sql.DB, r *mux.Router) {

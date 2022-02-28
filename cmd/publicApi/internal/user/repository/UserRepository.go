@@ -4,7 +4,7 @@ import (
 	"context"
 	"database/sql"
 
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/user/dto"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/user/dto"
 	"github.com/lcnssantos/iothub/internal/database"
 )
 

@@ -3,7 +3,7 @@ package repository
 import (
 	"database/sql"
 
-	"github.com/lcnssantos/iothub/cmd/iothub/internal/accounts/dto"
+	"github.com/lcnssantos/iothub/cmd/publicApi/internal/accounts/dto"
 )
 
 type AccountRepository struct {
