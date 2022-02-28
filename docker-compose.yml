@@ -21,6 +21,14 @@ services:
       - PMA_PORT=3306
       - PMA_USER=iot
       - PMA_PASSWORD=iot
+  mongo:
+    container_name: iot_mongo
+    image: mongo
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=mongo
+      - MONGO_INITDB_ROOT_PASSWORD=mongo
   rabbitmq:
     container_name: iot_rmq
     image: rabbitmq:3.9.13-management
