@@ -35,9 +35,9 @@ func getRMQ() (*mqtt.MQTT, error) {
 
 func handleMongo(done chan interface{}, db *mongo.Database) {
 	for {
-		test := <-done
-		log.Println(test)
-		db.Collection("messages").InsertOne(context.Background(), &test)
+		message := <-done
+		log.Println(message)
+		db.Collection("messages").InsertOne(context.Background(), &message)
 	}
 }
 
@@ -55,12 +55,7 @@ func main() {
 		log.Println("Error to connect to mongo")
 	}
 
-	defer func(client *mongo.Client, ctx context.Context) {
-		err := client.Disconnect(ctx)
-		if err != nil {
-
-		}
-	}(db.Client(), context.Background())
+	defer db.Client().Disconnect(context.Background())
 
 	mqttClient, err := getRMQ()
 
@@ -69,22 +64,17 @@ func main() {
 		return
 	}
 
-	defer func(mqttClient *mqtt.MQTT) {
-		err := mqttClient.Close()
-		if err != nil {
+	defer mqttClient.Close()
 
-		}
-	}(mqttClient)
+	mqttChan := make(chan interface{})
+	mongoChan := make(chan interface{})
 
-	mqttChannel := make(chan interface{})
-	mongoChannel := make(chan interface{})
-
-	go mqttClient.Listen("teste", mqttChannel)
-	go handleMongo(mongoChannel, db)
+	go mqttClient.Listen("messages", mqttChan)
+	go handleMongo(mongoChan, db)
 
 	for {
-		newMessage := <-mqttChannel
-		mongoChannel <- newMessage
+		newMessage := <-mqttChan
+		mongoChan <- newMessage
 	}
 
 }
