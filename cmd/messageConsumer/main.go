@@ -24,9 +24,13 @@ func getMongoDb() (*mongo.Database, error) {
 	return mongoDb, nil
 }
 
-func getRMQ() *mqtt.MQTT {
+func getRMQ() (*mqtt.MQTT, error) {
 	configuration := config.Get()
-	return mqtt.NewMQTT(configuration.RMQ_HOST, configuration.RMQ_PORT, configuration.RMQ_USER, configuration.RMQ_PASS)
+
+	mqttClient := mqtt.NewMQTT(configuration.RMQ_HOST, configuration.RMQ_PORT, configuration.RMQ_USER, configuration.RMQ_PASS)
+	err := mqttClient.Connect()
+
+	return mqttClient, err
 }
 
 func handleMongo(done chan interface{}, db *mongo.Database) {
@@ -51,12 +55,29 @@ func main() {
 		log.Println("Error to connect to mongo")
 	}
 
-	defer db.Client().Disconnect(context.Background())
+	defer func(client *mongo.Client, ctx context.Context) {
+		err := client.Disconnect(ctx)
+		if err != nil {
+
+		}
+	}(db.Client(), context.Background())
+
+	mqttClient, err := getRMQ()
+
+	if err != nil {
+		log.Println("Error to connect to mqtt")
+		return
+	}
+
+	defer func(mqttClient *mqtt.MQTT) {
+		err := mqttClient.Close()
+		if err != nil {
+
+		}
+	}(mqttClient)
 
 	mqttChannel := make(chan interface{})
 	mongoChannel := make(chan interface{})
-
-	mqttClient := getRMQ()
 
 	go mqttClient.Listen("teste", mqttChannel)
 	go handleMongo(mongoChannel, db)
