@@ -45,7 +45,7 @@ func main() {
 	err := config.Validate()
 
 	if err != nil {
-		log.Fatalln("invalid environment credentials")
+		log.Fatalln("invalid environment variables")
 	}
 
 	db, err := getMongoDb()
@@ -60,6 +60,7 @@ func main() {
 	mqttClient, err := getRMQ()
 
 	if err != nil {
+		log.Println(err.Error())
 		log.Println("Error to connect to mqtt")
 		return
 	}

@@ -1,0 +1,1 @@
+docker-compose -f "./.infra/prod/docker-compose.yml" up -d --build
