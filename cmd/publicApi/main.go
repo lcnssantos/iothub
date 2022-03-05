@@ -3,19 +3,21 @@ package main
 import (
 	"database/sql"
 	"fmt"
-	"github.com/lcnssantos/iothub/cmd/publicApi/config"
 	"log"
 	"net/http"
+
+	"github.com/lcnssantos/iothub/cmd/publicApi/config"
 
 	"github.com/gorilla/mux"
 	"github.com/lcnssantos/iothub/internal/middlewares"
 
+	"github.com/lcnssantos/iothub/cmd/publicApi/modules"
 	"github.com/lcnssantos/iothub/internal/database"
 )
 
 func BuildModules(db *sql.DB, router *mux.Router) {
-	BuildUserModule(db, router.PathPrefix("/").Subrouter())
-	BuildAuthModule(db, router.PathPrefix("/auth").Subrouter())
+	modules.BuildUserModule(db, router.PathPrefix("/").Subrouter())
+	modules.BuildAuthModule(db, router.PathPrefix("/auth").Subrouter())
 }
 
 func BuildRouters() *mux.Router {
