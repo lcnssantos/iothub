@@ -39,6 +39,11 @@ func (c Client) CreateAccount(login string, password string) error {
 	}
 
 	req, err := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(jsonReq))
+
+	if err != nil {
+		return err
+	}
+
 	req.SetBasicAuth(c.user, c.password)
 	res, err := c.httpClient.Do(req)
 

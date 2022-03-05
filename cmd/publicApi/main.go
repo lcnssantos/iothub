@@ -30,14 +30,14 @@ func main() {
 	err := config.Validate()
 
 	if err != nil {
-		log.Panicln("Error to validate environment variables")
+		log.Fatalln("Error to validate environment variables")
 	}
 
 	environmentConfiguration := config.Get()
 	db, err := database.GetConnection()
 
 	if err != nil {
-		log.Panicln("Error to connect to database")
+		log.Fatalln("Error to connect to database")
 	}
 
 	defer db.Close()

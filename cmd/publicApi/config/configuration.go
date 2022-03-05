@@ -34,11 +34,11 @@ func Get() *Configuration {
 		DB_POOL_SIZE: os.Getenv("DB_POOL_SIZE"),
 		PORT:         os.Getenv("PORT"),
 		JWT_KEY:      os.Getenv("JWT_KEY"),
-		RMQ_HOST:     os.Getenv("RMQ_HOST"),
-		RMQ_PASS:     os.Getenv("RMQ_PASS"),
-		RMQ_PORT:     os.Getenv("RMQ_PORT"),
-		RMQ_USER:     os.Getenv("RMQ_USER"),
-		RMQ_API_URL:  os.Getenv("RMQ_API_URL"),
+		RMQ_HOST:     os.Getenv("API_RMQ_HOST"),
+		RMQ_PASS:     os.Getenv("API_RMQ_PASS"),
+		RMQ_PORT:     os.Getenv("API_RMQ_PORT"),
+		RMQ_USER:     os.Getenv("API_RMQ_USER"),
+		RMQ_API_URL:  os.Getenv("API_RMQ_API_URL"),
 	}
 }
 

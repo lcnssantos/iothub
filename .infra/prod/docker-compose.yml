@@ -3,7 +3,7 @@ version: '3.3'
 services:
   db:
     container_name: iot_db_prod
-    image: mariadb
+    image: mariadb:10.8.2
     env_file:
       - ../../.env
     ports:
@@ -17,7 +17,7 @@ services:
   #    - ../../.env
   mongo:
     container_name: iot_mongo_prod
-    image: mongo
+    image: mongo:5.0.6-focal
     ports:
       - 27017:27017
     env_file:
@@ -31,10 +31,7 @@ services:
     env_file:
       - ../../.env
     ports:
-      - 5672:5672
-      - 8080:15672
       - 1883:1883
-      - 8883:8883 
     restart: always
   consumer:
     container_name: iot_consumer_prod
@@ -58,8 +55,15 @@ services:
       - rabbitmq
       - mongo
     restart: always
+  nginx:
+    container_name: iot_nginx_prod
+    image: nginx:1.21.6-alpine
+    volumes:
+      - ../nginx:/etc/nginx/conf.d
     ports:
-      - 5000:5000
+      - 80:80
+      - 8080:8080
+    restart: always
 networks:
   default:
     driver: "bridge"

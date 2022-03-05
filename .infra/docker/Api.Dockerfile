@@ -11,4 +11,6 @@ COPY ./ ./
 
 RUN go build -o /api cmd/publicApi/main.go
 
+EXPOSE 5000
+
 CMD [ "/api" ]

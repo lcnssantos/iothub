@@ -25,10 +25,10 @@ func Get() *Configuration {
 		MONGO_HOST:   os.Getenv("MONGO_HOST"),
 		MONGO_PORT:   os.Getenv("MONGO_PORT"),
 		MONGO_USER:   os.Getenv("MONGO_USER"),
-		RMQ_HOST:     os.Getenv("RMQ_HOST"),
-		RMQ_PASS:     os.Getenv("RMQ_PASS"),
-		RMQ_PORT:     os.Getenv("RMQ_PORT"),
-		RMQ_USER:     os.Getenv("RMQ_USER"),
+		RMQ_HOST:     os.Getenv("CONSUMER_RMQ_HOST"),
+		RMQ_PASS:     os.Getenv("CONSUMER_RMQ_PASS"),
+		RMQ_PORT:     os.Getenv("CONSUMER_RMQ_PORT"),
+		RMQ_USER:     os.Getenv("CONSUMER_RMQ_USER"),
 	}
 }
 
