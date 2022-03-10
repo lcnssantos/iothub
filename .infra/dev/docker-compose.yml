@@ -2,21 +2,21 @@ version: '3.3'
 
 services:
   db:
-    container_name: iot_db_prod
+    container_name: iot_db
     image: mariadb:10.8.2
     env_file:
       - ../../.env
     ports:
       - 3306:3306
   #phpmyadmin:
-  #  container_name: iot_phpmyadmin_prod
+  #  container_name: iot_phpmyadmin
   #  image: phpmyadmin
   #  ports:
   #    - 8081:80
   #  env_file:
   #    - ../../.env
   mongo:
-    container_name: iot_mongo_prod
+    container_name: iot_mongo
     image: mongo:5.0.6-focal
     ports:
       - 27017:27017
@@ -24,7 +24,7 @@ services:
       - ../../.env
     restart: always
   rabbitmq:
-    container_name: iot_rmq_prod
+    container_name: iot_rmq
     build: 
       context: ../../ 
       dockerfile: ./.infra/docker/RMQ.Dockerfile
@@ -34,7 +34,7 @@ services:
       - 1883:1883
     restart: always
   consumer:
-    container_name: iot_consumer_prod
+    container_name: iot_consumer
     build:
       context: ../../
       dockerfile: ./.infra/docker/Consumer.Dockerfile
@@ -45,7 +45,7 @@ services:
       - mongo
     restart: always
   api:
-    container_name: iot_api_prod
+    container_name: iot_api
     build:
       context: ../../
       dockerfile: ./.infra/docker/Api.Dockerfile
@@ -56,7 +56,7 @@ services:
       - mongo
     restart: always
   nginx:
-    container_name: iot_nginx_prod
+    container_name: iot_nginx
     image: nginx:1.21.6-alpine
     volumes:
       - ../nginx:/etc/nginx/conf.d
