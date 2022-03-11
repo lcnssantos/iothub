@@ -1,0 +1,11 @@
+version: '3.3'
+
+services:
+  terraform:
+    container_name: iothub_terraform
+    image: hashicorp/terraform:1.1.7
+    volumes:
+      - .:/infra
+    working_dir: /infra
+    env_file:
+      - ../../.env
